@@ -22,39 +22,41 @@ Intent intent = videocall.start();
 startActivity(intent);
 ```
 
-## Customization Options (Experimental)
+## Customization Options
 
-1. Modifiying elements in predefined view
+For customizing the call screen a few methods are provided  
 
-You can use methods like ```removeCallButton()``` and ```setAudioButtonIcon()``` to change the look of the resulting Activity
+First create the config object
 
-2. Add Custom View in predefined Activity
-
-You can add your own view elements in the activity - 
-
-First create a view group:
-```ViewGroup mLinearLayout = (ViewGroup) findViewById(R.id.linear_layout);```
-
-Get the view from the layout inflator:
-```View view = videocall.getView(mLinearLayout)```
-
-Add desired customizations to the view
-
-Add the view to the layout
-
-```videocall.addView(view);```
-
-3. Create custom layout using callbacks
-
-Add an event listener
-```videocall.setViewListener(new AgoraVideoCall.ViewListener() {
-	@Override
-	public void onUserJoined(SurfaceView surfaceview, int uid) {
-	}
-	@Override
-	public void onUserLeft(int uid) {
-	}
-   }
+```
+UIConfig config = new UIConfig();
 ```
 
-You can add custom logic to these methods
+Call the methods that you want to use
+
+```
+config.hideSwitchCamera();
+config.hideVideoMute();
+```
+
+You can also chain the methods
+
+```
+config.hideAudioMute().showCheckButton();
+```
+
+We also provide a check button which you can use to start your custom intent. For example:  
+
+Say you want the check button to start your custom activity called TestActivity
+
+```
+config.showCheckButton();
+Intent intent = new Intent(getBaseContext(), TestActivity.class);
+videocall.setIntent(intent);
+```
+
+You can then call the start method 
+
+```
+startActivity(videocall.start())
+```
